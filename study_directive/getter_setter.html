@@ -32,7 +32,7 @@
                 set : function(amt) {
                     if (typeof(amt) == "string"){
                         var result = parseInt(amt.replace(/,/g,""));
-                        if (isNan(result)) 
+                        if (isNaN(result)) 
                             this.amt = 0;
                         else
                             this.amt = result;

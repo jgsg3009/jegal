@@ -63,11 +63,9 @@
         el : "#example",
         data : model,
         computed: {
-            filtered : () =>  { 
-                model.countries.filter(
-                     item => item.name.indexOf(model.countryname.trim()) > -1
-             )
-            }
+            filtered : () =>  { model.countries.filter(
+                item => item.name.indexOf(model.countryname.trim()) > -1
+            )}
         }
     })
     </script>

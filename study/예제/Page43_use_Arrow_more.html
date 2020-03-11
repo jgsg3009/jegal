@@ -63,7 +63,7 @@
         el : "#example",
         data : model,
         computed: {
-            filtered : () =>  { model.countries.filter(
+            filtered : () =>  { return model.countries.filter(
                 item => item.name.indexOf(model.countryname.trim()) > -1
             )}
         }

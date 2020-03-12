@@ -2,7 +2,9 @@
     <div id="app">
         <el-row>
             <el-col :span="24">
-                <div class="grid-content bg-purple-dark"></div>
+                <div class="grid-content bg-purple-dark">
+                    Hello, Vue!
+                </div>
             </el-col>
         </el-row>   
     </div>

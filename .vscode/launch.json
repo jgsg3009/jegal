@@ -5,7 +5,11 @@
         "type": "chrome",
         "request": "launch",
         "name": "Launch Chrome",
+<<<<<<< HEAD
         "url": "http://localhost:8080",
+=======
+        "url": "http://localhost:8081",
+>>>>>>> 99ef3b4711c8dcd2f717e43dd012712d1f333361
         "webRoot": "${workspaceFolder}/src",
         "breakOnLoad": true,
         "sourceMapPathOverrides": {

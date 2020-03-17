@@ -12,6 +12,7 @@
     "node-sass": "^4.9.2",
     "reset-css": "^4.0.1",
     "sass-loader": "^7.1.0",
+    "serve": "^11.3.0",
     "vue": "^2.5.16"
   },
   "devDependencies": {

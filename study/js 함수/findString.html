@@ -1,0 +1,45 @@
+<html>
+
+</html>
+
+<script>
+    const patterns = [
+            /find\(\[?(".+")+\]?\)/gm,
+            /findAll\(\[?(".+")+\]?\)/gm,
+            /wait\(\[?(".+")\]?.+\)/gm,
+            /waitVanish\(\[?(".+")\]?.+\)/gm,
+            /exists\(\[?(".+")\]?.+\)/gm,
+            /onAppear\(\[?(".+")\]?.+\)/gm,
+            /onVanish\(\[?(".+")\]?.+\)/gm,
+            /findBest\(\[?(".+")+\]?\)/gm,
+            /findBestList\(\[?(".+")+\]?\)/gm,
+            /findAny\(\[?(".+")+\]?\)/gm,
+            /findAnyList\(\[?(".+")+\]?\)/gm,
+            /onAppear\(\[?(".+")\]?.+\)/gm,
+            /click\(\[?(".+")\]?.+\)/gm,
+            /doubleClick\(\[?(".+")\]?.+\)/gm,
+            /rightClick\(\[?(".+")\]?.+\)/gm,
+            /hover\(\[?(".+")+\]?\)/gm,
+            /dragDrop\(\[?(".+")\]?.+\)/gm,
+            /drag\(\[?(".+")\]?.+\)/gm,
+            /dropAt\(\[?(".+")\]?.+\)/gm,
+            /type\(\[?(".+")\]?,+.+\)/gm,
+            /paste\(\[?(".+")\]?,+.+\)/gm,
+            /wheel\(\[?(".+")\]?,+.+\)/gm
+        ]
+        // type, paste 는 텍스트가 들어감. 예외처리 필요
+        // regular Expression의 작성 패턴은 다음 2가지.
+        // 1.find 와 같이 PatternString만 있는경우 
+        // 2. wait 와 같이 PatternString 만 있지 않거나 PatternString을 넣는것이 옵션인 경우
+
+    const codeLine1 = "find([\"12345.png\",\"54321.png\",\"54321.png\"])";
+    result = patterns[0].exec(codeLine1)
+    console.log(result)
+    result = result[1]
+    console.log(result)
+    result = result.replace(/"/g, '')
+    console.log(result)
+    result = result.split(',')
+    console.log(result)
+    console.log(result.slice(0, -1))
+</script>

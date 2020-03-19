@@ -1,0 +1,51 @@
+<html>
+
+</html>
+
+<script>
+    const patternsForpng = [
+        /click\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /exists\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /find\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /type\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /hover\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /wait\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /waitVanish\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /onAppear\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /onVanish\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /findAll\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /findBest\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /findBestList\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /findAny\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /findAnyList\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /doubleClick\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /rightClick\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /dragDrop\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /drag\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /dropAt\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+        /paste\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
+    ];
+    const parameterPngParsing = function(codeLine) {
+
+        var result;
+        for (var index in patternsForpng) {
+            console.log(patternsForpng[index])
+            result = patternsForpng[index].exec(codeLine);
+            if (result) {
+                result = result[1];
+                console.log(result)
+                result = result.replace(/\//g, '').replace(/ /g, '').replace(/"/g, '');
+                result = result.split(',');
+                break;
+            } else {
+                continue;
+            }
+        }
+        return result;
+    }
+
+    console.log(parameterPngParsing(
+            "paste( [ \"1.png\",\"542.png\" ] ,\"나는 텍스트다\",15)"))
+        // console.log(parameterPngParsing(
+        //     "click(  \"1.png\" )"))
+</script>

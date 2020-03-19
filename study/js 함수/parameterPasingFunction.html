@@ -1,0 +1,75 @@
+<html>
+
+</html>
+
+<script>
+    const parameterParsing = function(codeLine) {
+        const methodsNonText = [
+            /click\(.*/gm,
+            /exists\(.*/gm,
+            /find\(.*/gm,
+            /hover\(.*/gm,
+            /wait\(.*/gm,
+            /waitVanish\(.*/gm,
+            /onAppear\(.*/gm,
+            /onVanish\(.*/gm,
+            /findAll\(.*/gm,
+            /findBest\(.*/gm,
+            /findBestList\(.*/gm,
+            /findAny\(.*/gm,
+            /findAnyList\(.*/gm,
+            /doubleClick\(.*/gm,
+            /rightClick\(.*/gm,
+            /hover\(.*/gm,
+            /dragDrop\(.*/gm,
+            /drag\(.*/gm,
+            /dropAt\(.*/gm,
+            /wheel\(.*/gm,
+        ];
+        const methodsText = [
+            /type\(.*/gm,
+            /paste\(.*/gm
+        ];
+        const patterns = [
+            /\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
+            /\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm
+        ];
+        var result, i, index;
+        for (i in methodsNonText) {
+            if (methodsNonText[i].exec(codeLine)) {
+                index = 0;
+                break;
+            }
+        }
+        for (i in methodsText) {
+            if (methodsText[i].exec(codeLine)) {
+                index = 1;
+                break;
+            }
+        }
+        console.log(index)
+        if (index != 0 && index != 1) {
+            return [];
+        }
+        console.log(patterns[index])
+        result = patterns[index].exec(codeLine);
+        if (result) {
+            result = result[1];
+            result = result.replace(/\//g, '')
+            result = result.split("\",\"");
+            result = result.map(x => x.replace(/ /g, '').replace(/"/g, ''));
+            console.log(result)
+        } else {
+            return [];
+        }
+        return result;
+    }
+
+
+    // console.log(parameterParsing(
+    //         "paste( [ \"1.png\",\"542.png\" ] ,\"나는 텍스트다\",15)"))
+    // console.log(parameterParsing(
+    //     "click(  \"1.png\" )"))
+    console.log(parameterParsing(
+        "click([\"Pattern(\"1579164524374.png\").targetOffset(21,1).similar(0.77)\",\"Pattern(\"1579164524374.png\").targetOffset(21,1).similar(0.77)\"]) "))
+</script>

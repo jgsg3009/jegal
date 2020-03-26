@@ -1,94 +1,102 @@
-const parameterParsing = function(codeLine) {
-        const parameterParsing = function(codeLine) {
-            const patterns = [
-                /click\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /exists\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /find\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /type\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm,
-                /hover\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /wait\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /waitVanish\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /onAppear\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /onVanish\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /findAll\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /findBest\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /findBestList\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /findAny\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /findAnyList\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /doubleClick\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /rightClick\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /dragDrop\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /drag\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /dropAt\(\s?\[?\s?(".+")\s?\]?\s?.*\)/gm,
-                /paste\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm
-            ];
-            const patternsForpng = [
-                /click\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /exists\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /find\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /type\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /hover\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /wait\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /waitVanish\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /onAppear\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /onVanish\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /findAll\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /findBest\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /findBestList\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /findAny\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /findAnyList\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /doubleClick\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /rightClick\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /dragDrop\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /drag\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /dropAt\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-                /paste\([^"]*.*("[0-9]*.*\.png\\?").*\)/gm,
-            ];
-            var result;
-            for (var index in patterns) {
-                result = patterns[index].exec(codeLine);
-                if (result) {
-                    result = result[1];
-                    result = result.replace(/\//g, '')
-                    result = result.split("\",\"");
-                    result = result.map(x => x.replace(/ /g, '').replace(/"/g, ''));
-                    break;
-                } else {
-                    continue;
-                }
-            }
-            return result;
-        }
-        const parameterPngParsing = function(codeLine) {
-                for (var index in patternsForpng) {
-                    result = patternsForpng[index].exec(codeLine);
-                    if (result) {
-                        result = result[1];
-                        result = result.replace(/\//g, '')
-                        result = result.split("\",\"");
-                        result = result.map(x => x.replace(/ /g, '').replace(/"/g, ''));
-                        break;
-                    } else {
-                        continue;
-                    }
-                }
-                return result;
-            }
-            // console.log(parameterParsing(
-            //     "paste( [ \"1.png\",\"542.png\" ] ,\"나는 텍스트다\",15)"))
-            // console.log(parameterParsing(
-            //     "click(  \"1.png\" )"))
-            // type, paste 는 텍스트가 들어감. 예외처리 필요
-            // regular Expression의 작성 패턴은 다음 2가지.
-            // 1.find 와 같이 PatternString만 있는경우 
-            // 2. wait 와 같이 PatternString 만 있지 않거나 PatternString을 넣는것이 옵션인 경우
+const patterns = [
+    /click\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /exists\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /find\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /type\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm,
+    /hover\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /wait\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /waitVanish\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /onAppear\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /onVanish\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /findAll\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /findBest\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /findBestList\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /findAny\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /findAnyList\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /doubleClick\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /rightClick\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /dragDrop\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /drag\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /dropAt\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+    /paste\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm
+];
 
-        // const codeLine1 = "find([\"12345.png\",\"54321.png\",\"54321.png\"])";
-        // result = patterns[0].exec(codeLine1)
-        // console.log(result)
-        // result = result[1]
-        // console.log(result)
-        // result = result.replace(/"/g, '')
-        // console.log(result)
-        // result = result.split(',')
-        // console.log(result)
+const patternsForpng = [
+    /click\([^0-9]*(\d+.*png.*")/gm,
+    /exists\([^0-9]*(\d+.*png.*")/gm,
+    /find\([^0-9]*(\d+.*png.*")/gm,
+    /type\([^0-9]*(\d+.*png.*")/gm,
+    /hover\([^0-9]*(\d+.*png.*")/gm,
+    /wait\([^0-9]*(\d+.*png.*")/gm,
+    /waitVanish\([^0-9]*(\d+.*png.*")/gm,
+    /onAppear\([^0-9]*(\d+.*png.*")/gm,
+    /onVanish\([^0-9]*(\d+.*png.*")/gm,
+    /findAll\([^0-9]*(\d+.*png.*")/gm,
+    /findBest\([^0-9]*(\d+.*png.*")/gm,
+    /findBestList\([^0-9]*(\d+.*png.*")/gm,
+    /findAny\([^0-9]*(\d+.*png.*")/gm,
+    /findAnyList\([^0-9]*(\d+.*png.*")/gm,
+    /doubleClick\([^0-9]*(\d+.*png.*")/gm,
+    /rightClick\([^0-9]*(\d+.*png.*")/gm,
+    /dragDrop\([^0-9]*(\d+.*png.*")/gm,
+    /drag\([^0-9]*(\d+.*png.*")/gm,
+    /dropAt\([^0-9]*(\d+.*png.*")/gm,
+    /paste\([^0-9]*(\d+.*png.*")/gm,
+];
+/**
+ * @param {String} codeLine
+ * @returns Array(String)
+ * @example1 "click(\"123.png\")" => ["123.png"]
+ * @example2 "click(\"Pattern(\"1579164524374.png\").targetOffset(21,1)\")"  => ["Pattern(1579164524374.png).targetOffset(21,1)"]
+ * @example3 "click(\"Pattern(\"1579164524374.png\").similar(0.77)\")" => ["Pattern(1579164524374.png).similar(0.77)"]
+ * @example4 "click(\"Pattern(\"1579164524374.png\").targetOffset(21,1).similar(0.77)\")" => ["Pattern(1579164524374.png).targetOffset(21,1).similar(0.77)"]
+ * @example5 "click([\"123.png\",\"1234.png\"])" => ["123.png", "1234.png"]
+ * @example6 "type(\"나는 텍스트다 png나 패턴아니다\", 15)" => null
+ * @example7 "type(\"12345.png\",\"나는 텍스트다 png나 패턴아니다\", 15)" => ["12345.png"]
+ * @example2 "type([\"패턴1\",\"패턴2\"],\"입력할 문자\",딜레이)" => ["패턴1", "패턴2"]
+ */
+const parameterParsing = function(codeLine) {
+
+        var result;
+        for (var index in patterns) {
+            result = patterns[index].exec(codeLine);
+            if (result) {
+                result = result[1];
+                result = result.replace(/\//g, '')
+                result = result.split("\",\"");
+                result = result.map(x => x.replace(/ /g, '').replace(/"/g, ''));
+                break;
+            } else {
+                continue;
+            }
+        }
+        return result;
+    }
+    /**
+     * @param {String} codeLine
+     * @returns Array(String)
+     * @example code
+     */
+const parameterPngParsing = function(codeLine) {
+
+    var result;
+    for (var index in patternsForpng) {
+        console.log(patternsForpng[index])
+        result = patternsForpng[index].exec(codeLine);
+        console.log(result)
+        if (result) {
+            result = result[1];
+            console.log(result)
+            var pattern = '(\\d+\.png)|.'
+            result = result.replace(new RegExp(pattern, 'gi'), function(c) {
+                console.log(c.slice(-4))
+                return c.slice(-4) == '.png' ? c + ',' : '';
+            });
+            result = result.split(',').slice(0, -1);
+            break;
+        } else {
+            continue;
+        }
+    }
+    return result;
+}

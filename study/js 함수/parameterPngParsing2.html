@@ -34,12 +34,9 @@
             console.log(result)
             if (result) {
                 result = result[1];
-                console.log(result)
                 var pattern = '(\\d+\.png)|.'
                 result = result.replace(new RegExp(pattern, 'gi'), function(c) {
-                    console.log(c.slice(-4))
                     return c.slice(-4) == '.png' ? c + ',' : '';
-                    //return c === pattern ? c : '*';
                 });
                 result = result.split(',').slice(0, -1);
                 break;
@@ -51,8 +48,7 @@
     }
 
     console.log(parameterPngParsing(
-            "click([\"Pattern(\"123.png\").targetOffset(21,1).similar(0.77)\", \"Pattern(\"152.png\").targetOffset(21,1).similar(0.77)\"])"
-        ))
+            "type(\"12345.png\",\"나는 텍스트다 png나 패턴아니다\", 15)"))
         // console.log(parameterPngParsing(
         //     "click(  \"1.png\" )"))
 </script>

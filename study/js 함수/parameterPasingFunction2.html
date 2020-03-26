@@ -1,0 +1,54 @@
+<html>
+
+</html>
+
+<script>
+    const patterns = [
+        /click\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /exists\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /find\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /type\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm,
+        /hover\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /wait\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /waitVanish\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /onAppear\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /onVanish\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /findAll\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /findBest\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /findBestList\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /findAny\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /findAnyList\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /doubleClick\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /rightClick\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /dragDrop\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /drag\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /dropAt\(\s?\[?\s?(".+")\s?\]?.*\)/gm,
+        /paste\(\s?\[?\s?(".+")\s?\]?.*".*".*\)/gm
+    ];
+    const parameterParsing = function(codeLine) {
+
+        var result;
+        for (var index in patterns) {
+            result = patterns[index].exec(codeLine);
+            if (result) {
+                result = result[1];
+                result = result.replace(/\//g, '')
+                result = result.split("\",\"");
+                result = result.map(x => x.replace(/ /g, '').replace(/"/g, ''));
+                break;
+            } else {
+                continue;
+            }
+        }
+        return result;
+    }
+
+    // console.log(parameterParsing(
+    //         "paste( [ \"1.png\",\"542.png\" ] ,\"나는 텍스트다\",15)"))
+    // console.log(parameterParsing(
+    //     "click(  \"1.png\" )"))
+    //console.log(parameterParsing(
+    //   "type([\"Pattern(\"1579164524374.png\").targetOffset(21,1).similar(0.77)\",\"Pattern(\"1579164524374.png\").targetOffset(21,1).similar(0.77)\"],\"나는 텍스트다\",15) "))
+    console.log(parameterParsing(
+        "type([\"패턴1\",\"패턴2\"],\"입력할 문자\",딜레이)"))
+</script>

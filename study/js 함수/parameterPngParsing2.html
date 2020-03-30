@@ -3,50 +3,54 @@
 </html>
 
 <script>
-    const patternsForpng = [
-        /click\([^0-9]*(\d+.*png.*")/gm,
-        /exists\([^0-9]*(\d+.*png.*")/gm,
-        /find\([^0-9]*(\d+.*png.*")/gm,
-        /type\([^0-9]*(\d+.*png.*")/gm,
-        /hover\([^0-9]*(\d+.*png.*")/gm,
-        /wait\([^0-9]*(\d+.*png.*")/gm,
-        /waitVanish\([^0-9]*(\d+.*png.*")/gm,
-        /onAppear\([^0-9]*(\d+.*png.*")/gm,
-        /onVanish\([^0-9]*(\d+.*png.*")/gm,
-        /findAll\([^0-9]*(\d+.*png.*")/gm,
-        /findBest\([^0-9]*(\d+.*png.*")/gm,
-        /findBestList\([^0-9]*(\d+.*png.*")/gm,
-        /findAny\([^0-9]*(\d+.*png.*")/gm,
-        /findAnyList\([^0-9]*(\d+.*png.*")/gm,
-        /doubleClick\([^0-9]*(\d+.*png.*")/gm,
-        /rightClick\([^0-9]*(\d+.*png.*")/gm,
-        /dragDrop\([^0-9]*(\d+.*png.*")/gm,
-        /drag\([^0-9]*(\d+.*png.*")/gm,
-        /dropAt\([^0-9]*(\d+.*png.*")/gm,
-        /paste\([^0-9]*(\d+.*png.*")/gm,
-    ];
     const parameterPngParsing = function(codeLine) {
 
-        var result;
-        for (var index in patternsForpng) {
-            console.log(patternsForpng[index])
-            result = patternsForpng[index].exec(codeLine);
-            console.log(result)
-            if (result) {
-                result = result[1];
-                var pattern = '(\\d+\.png)|.'
-                result = result.replace(new RegExp(pattern, 'gi'), function(c) {
-                    return c.slice(-4) == '.png' ? c + ',' : '';
-                });
-                result = result.split(',').slice(0, -1);
-                break;
-            } else {
-                continue;
+            const patternsForpng = [
+                /click\([^0-9]*(\d+.*png.*")/gm,
+                /exists\([^0-9]*(\d+.*png.*")/gm,
+                /has\([^0-9]*(\d+.*png.*")/gm,
+                /find\([^0-9]*(\d+.*png.*")/gm,
+                /type\([^0-9]*(\d+.*png.*")/gm,
+                /hover\([^0-9]*(\d+.*png.*")/gm,
+                /wait\([^0-9]*(\d+.*png.*")/gm,
+                /waitVanish\([^0-9]*(\d+.*png.*")/gm,
+                /onAppear\([^0-9]*(\d+.*png.*")/gm,
+                /onVanish\([^0-9]*(\d+.*png.*")/gm,
+                /findAll\([^0-9]*(\d+.*png.*")/gm,
+                /findBest\([^0-9]*(\d+.*png.*")/gm,
+                /findBestList\([^0-9]*(\d+.*png.*")/gm,
+                /findAny\([^0-9]*(\d+.*png.*")/gm,
+                /findAnyList\([^0-9]*(\d+.*png.*")/gm,
+                /doubleClick\([^0-9]*(\d+.*png.*")/gm,
+                /rightClick\([^0-9]*(\d+.*png.*")/gm,
+                /dragDrop\([^0-9]*(\d+.*png.*")/gm,
+                /drag\([^0-9]*(\d+.*png.*")/gm,
+                /dropAt\([^0-9]*(\d+.*png.*")/gm,
+                /paste\([^0-9]*(\d+.*png.*")/gm,
+            ];
+            for (const pattern of patternsForpng) {
+                const result = pattern.exec(codeLine);
+                const pngPattern = '(\\d+\.png)|.'
+                if (result) {
+                    return result[1].replace(new RegExp(pngPattern, 'gi'), function(c) {
+                        return c.slice(-4) == '.png' ? c + ',' : '';
+                    }).split(',').slice(0, -1);
+                }
             }
+            return null;
         }
-        return result;
-    }
-
+        /**
+         * @param {String} codeLine
+         * @returns Array(String)
+         * @example1 "click(\"123.png\")" => ["123.png"]
+         * @example2 "click(\"Pattern(\"1579164524374.png\").targetOffset(21,1)\")"  => ["1579164524374.png"]
+         * @example3 "click(\"Pattern(\"1579164524374.png\").similar(0.77)\")" =>  ["1579164524374.png"]
+         * @example4 "click(\"Pattern(\"1579164524374.png\").targetOffset(21,1).similar(0.77)\")" =>  ["1579164524374.png"]
+         * @example5 "click([\"123.png\",\"1234.png\"])" => ["123.png", "1234.png"]
+         * @example6 "type(\"나는 텍스트다 png나 패턴아니다\", 15)" => null
+         * @example7 "wait(15) " => null
+         * @example8 "type(\"12345.png\",\"나는 텍스트다 png나 패턴아니다\", 15)" => ["12345.png"]
+         */
     console.log(parameterPngParsing(
             "type(\"12345.png\",\"나는 텍스트다 png나 패턴아니다\", 15)"))
         // console.log(parameterPngParsing(

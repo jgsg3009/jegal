@@ -1,0 +1,61 @@
+<html>
+<div>
+
+</div>
+
+</html>
+
+<script type="text/javascript" src="require.js">
+    let nodemailer = require('../../node_modules/nodemailer')
+    let smtpPool = require('../../node_modules/nodemailer-smtp-pool')
+
+    const config = {
+        mailer: {
+            service: 'naver',
+            host: 'localhost',
+            port: '465',
+            user: 'gr3009',
+            password: 'yisgr3000',
+        },
+    };
+
+    const from = 'gr3009@naver.com'
+    const to = 'tobeor3009@gmail.com'
+    const subject = "This is title"
+    const html = "<p> This is paragraph. </p>"
+    const text = 'this is just text.'
+
+    const mailOptions = {
+        from,
+        to,
+        subject,
+        html,
+        text,
+    };
+
+    const transporter = nodemailer.createTransport(smtpPool({
+        service: config.mailer.service,
+        host: config.mailer.host,
+        port: config.mailer.port,
+        auth: {
+            user: config.mailer.user,
+            pass: config.mailer.password,
+        },
+        tls: {
+            rejectUnauthorize: false,
+        },
+        maxConnections: 5,
+        maxMessages: 10,
+    }));
+
+    // 메일을 전송하는 부분
+    transporter.sendMail(mailOptions, (err, res) => {
+        if (err) {
+            console.log('failed... => ', err);
+        } else {
+            console.log('succeed... => ', res);
+        }
+
+        transporter.close();
+    });
+</script>
